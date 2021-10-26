@@ -1,26 +1,70 @@
-from random import randrange
+from random import choice
 
-sweet_amount = int(input("hoeveel kleuren (M&M’s) moeten er aan de zak worden toegevoegd? "))
+bag_chosen = False
+
+amount = int(input("hoeveel kleuren (M&M’s) moeten er aan de zak worden toegevoegd? "))
+
+colors = ["oranje", "blauw", "groen", "bruin"]
 
 
-def bag(sweet_amount: int):
-    colors = ("oranje", "blauw", "groen", "bruin")
-    bag  = {}
+def color_bag(amount: int):
+    colors_bag = []
 
-    for i in range(0, sweet_amount):
-        num = randrange(0, (len(colors) -1) )
-        color = colors[num]
+    for i in range(amount):
+        color = choice(colors)
+
+        colors_bag.append(color)
+    
+    else:
+        return colors_bag
+
+
+def dict_color_bag(amount: int):
+    dict_colors_bag  = {}
+
+    for i in range(amount):
+        color = choice(colors)
 
         try:
-            bag[color] += 1
+            dict_colors_bag[color] += 1
         
         except KeyError: 
-            bag[color] = 1
+            dict_colors_bag[color] = 1
 
     else:
-        return bag
+        return dict_colors_bag
 
 
-bag = bag(sweet_amount)
+def sort_bag(bag, colors):
+    if isinstance(bag, list):
+        new_bag = sorted(bag)
+    else:
+        new_bag = {}
 
-print(bag)
+        for color in bag:            
+            new_bag[color] = bag[color]
+
+    return new_bag
+
+color_bag = color_bag(amount)
+dict_color_bag = dict_color_bag(amount)
+
+
+while not bag_chosen:
+    choice = input("wilt u de zak meegeven als L )list of als D) dictionary?: ").upper()
+
+    if choice == "L":
+        bag_must_sort = color_bag
+        bag_chosen = True
+
+    elif choice == "D":
+        bag_must_sort = dict_color_bag
+        bag_chosen = True
+
+    else:
+        print("Kies opnieuw")   
+
+else:
+    new_bag = sort_bag(bag_must_sort, colors)
+
+    print(new_bag)
